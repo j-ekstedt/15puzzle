@@ -5,17 +5,23 @@ import java.awt.*;
 import java.util.Random;
 
 public class Game {
+
     /*
     Byter plats på rutan man klickade på med vita rutan.
      */
     public static int moveTile(int tileClicked, JLabel[] labels, int whiteTile, int dimension) {
 
         if (isConnected(tileClicked, whiteTile, dimension)) {
+            //byter text
+            String temp = labels[whiteTile].getText();
             labels[whiteTile].setText(labels[tileClicked].getText());
+            labels[tileClicked].setText(temp);
+
             labels[whiteTile].setBackground(Color.RED);
             labels[whiteTile].setVisible(true);
 
             labels[tileClicked].setVisible(false);
+
             return tileClicked;
         }
 
@@ -76,6 +82,7 @@ public class Game {
             }
         }
 
+//        return inversions % 2 == 0;
         return (inversions & 1) == 0;
     }
 }

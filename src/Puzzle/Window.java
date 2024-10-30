@@ -17,10 +17,7 @@ public class Window extends JFrame {
 
     void startGame() {
         shuffle(labels);
-        if (isSolveable(labels)) {
-            System.out.println("solveable");
-        } else {
-            System.out.println("not solveable");
+        if (!isSolveable(labels)) {
             startGame();
         }
     }
@@ -85,9 +82,6 @@ public class Window extends JFrame {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            System.out.println(index + " actual index");
-            System.out.println(labels[index].getText());
-            System.out.println("----");
             whiteTile = moveTile(index, labels, whiteTile, dim);
         }
     }
