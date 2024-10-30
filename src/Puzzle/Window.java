@@ -29,14 +29,13 @@ public class Window extends JFrame {
 
     }
     void cheat(JLabel[] labels) {
-        for (int i = 0 ; i < size - 2 ; i++){
-            labels[i].setText(String.valueOf(i+1));
-            labels[i].setBackground(Color.LIGHT_GRAY);
-        }
-        labels[14].setText(String.valueOf(15));
-        labels[14].setBackground(Color.WHITE);
-        labels[15].setText(String.valueOf(14));
-        labels[15].setBackground(Color.LIGHT_GRAY);
+
+        labels[size-1].setText(String.valueOf(size));
+        labels[size-2].setText(String.valueOf(size - 1));
+        labels[size-2].setVisible(false);
+        labels[size-1].setBackground(Color.LIGHT_GRAY);
+        labels[size-1].setVisible(true);
+
     }
 
     boolean isGameWon() {
@@ -86,10 +85,7 @@ public class Window extends JFrame {
             moveTile(index);
             if(isGameWon()){
                 System.out.println("WIN");
-            }
-            for (int i = 0; i < size; i++) {
-                System.out.println("Label " + i + ": " + labels[i].getText());
-            }
+
 
         }
     }
