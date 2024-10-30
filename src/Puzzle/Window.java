@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import static Puzzle.Game.*;
+
 public class Window extends JFrame {
 
     int dim = 4; //dimension på spelplanens sida
@@ -12,6 +14,16 @@ public class Window extends JFrame {
     int whiteTile = size - 1; //Håller koll på vita rutans position, uppdaterad i moveTile()
     JPanel grid = new JPanel();
     JLabel[] labels = new JLabel[size];
+
+    void startGame() {
+        shuffle(labels);
+        if (isSolveable(labels)) {
+            System.out.println("solveable");
+        } else {
+            System.out.println("not solveable");
+            startGame();
+        }
+    }
 
     void window() {
         setSize(800, 800);
@@ -27,50 +39,12 @@ public class Window extends JFrame {
 
         add(grid);
         pack();
-
     }
-
-    void isGameWon() {
-
-    }
-
-    void shuffle() {
-        //gör grejer med labels arrayen
-    }
-
-    void moveTile(int tileClicked) {
-
-        if (isConnected(tileClicked, whiteTile)) {
-            labels[whiteTile].setText(labels[tileClicked].getText());
-            labels[whiteTile].setBackground(Color.RED);
-            labels[whiteTile].setVisible(true);
-
-            labels[tileClicked].setVisible(false);
-
-            whiteTile = tileClicked;
-        }
-    }
-
 
     public static void main(String[] args) {
         Window window = new Window();
         window.window();
-    }
-
-    private class LabelMouseListener extends MouseAdapter {
-        private final int index;
-
-        public LabelMouseListener(int index) {
-            this.index = index;
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            System.out.println(index + " actual index");
-            System.out.println(labels[index].getText());
-            System.out.println("----");
-            moveTile(index);
-        }
+        window.startGame();
     }
 
     private void createLabelArr(JPanel[] panelArray) {
@@ -101,19 +75,20 @@ public class Window extends JFrame {
             panelArray[i] = panel;
         }
     }
-    boolean isConnected(int tileClicked, int whiteTile) {
 
-        int startOfRow = whiteTile % dim;
-        int endOfRow = (whiteTile + 1) % dim;
+    private class LabelMouseListener extends MouseAdapter {
+        private final int index;
 
-        if (0 != startOfRow && tileClicked == whiteTile - 1) {
-            return true;
-        }
-        if (0 != endOfRow && tileClicked == whiteTile + 1) {
-            return true;
+        public LabelMouseListener(int index) {
+            this.index = index;
         }
 
-        return tileClicked == whiteTile - dim || tileClicked == whiteTile + dim;
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            System.out.println(index + " actual index");
+            System.out.println(labels[index].getText());
+            System.out.println("----");
+            whiteTile = moveTile(index, labels, whiteTile, dim);
+        }
     }
-
 }
