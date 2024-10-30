@@ -23,23 +23,26 @@ public class Window extends JFrame {
 
         createPanelArray(panelArray);
         createLabelArr(panelArray);
+        cheat(labels);
+
 
         add(grid);
         pack();
 
     }
+
     void cheat(JLabel[] labels) {
 
-        labels[size-1].setText(String.valueOf(size));
-        labels[size-2].setText(String.valueOf(size - 1));
-        labels[size-2].setVisible(false);
-        labels[size-1].setBackground(Color.LIGHT_GRAY);
-        labels[size-1].setVisible(true);
+        labels[size - 1].setText(String.valueOf(size));
+        labels[size - 2].setText(String.valueOf(size - 1));
+        labels[size - 2].setVisible(false);
+        labels[size - 1].setBackground(Color.LIGHT_GRAY);
+        labels[size - 1].setVisible(true);
 
     }
 
     boolean isGameWon() {
-        for (int i = size-1; i > 0 ; i--) {
+        for (int i = size - 1; i > 0; i--) {
             if (!labels[i].getText().equals(String.valueOf(i + 1))) {
                 return false;
             }
@@ -83,54 +86,58 @@ public class Window extends JFrame {
             System.out.println(index + " actual index");
             System.out.println(labels[index].getText());
             moveTile(index);
-            if(isGameWon()){
+            if (isGameWon()) {
                 System.out.println("WIN");
 
 
-        }
-    }
-
-    private void createLabelArr(JPanel[] panelArray) {
-        for (int i = 0; i < size; i++) {
-            //saker som alla labels har gemensamt
-            int oneIndexed = i + 1; //faktiska nummret
-            labels[i] = new JLabel(oneIndexed + "");
-
-            labels[i].setFont(new Font("Arial", Font.BOLD, getHeight() / dim / 2));
-            labels[i].setPreferredSize(new Dimension(getWidth() / dim, getHeight() / dim)); //ändra storlek
-
-            labels[i].setHorizontalAlignment(JLabel.CENTER);
-            labels[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            labels[i].setOpaque(true);
-            labels[i].setBackground(Color.LIGHT_GRAY);
-            labels[i].addMouseListener(new LabelMouseListener(i));
-            panelArray[i].add(labels[i]);
-            //saker som bara har med tomma rutan att göra
-            if (i == whiteTile) {
-                labels[i].setVisible(false);
             }
         }
     }
-    private void createPanelArray(JPanel[] panelArray) {
-        for (int i = 0 ; i < size ; i++) {
-            JPanel panel = new JPanel();
-            grid.add(panel);
-            panelArray[i] = panel;
+
+        private void createLabelArr(JPanel[] panelArray) {
+            for (int i = 0; i < size; i++) {
+                //saker som alla labels har gemensamt
+                int oneIndexed = i + 1; //faktiska nummret
+                labels[i] = new JLabel(oneIndexed + "");
+
+                labels[i].setFont(new Font("Arial", Font.BOLD, getHeight() / dim / 2));
+                labels[i].setPreferredSize(new Dimension(getWidth() / dim, getHeight() / dim)); //ändra storlek
+
+                labels[i].setHorizontalAlignment(JLabel.CENTER);
+                labels[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                labels[i].setOpaque(true);
+                labels[i].setBackground(Color.LIGHT_GRAY);
+                labels[i].addMouseListener(new LabelMouseListener(i));
+                panelArray[i].add(labels[i]);
+                //saker som bara har med tomma rutan att göra
+                if (i == whiteTile) {
+                    labels[i].setVisible(false);
+                }
+            }
         }
+
+
+        private void createPanelArray(JPanel[] panelArray) {
+            for (int i = 0; i < size; i++) {
+                JPanel panel = new JPanel();
+                grid.add(panel);
+                panelArray[i] = panel;
+            }
+        }
+
+        boolean isConnected(int tileClicked, int whiteTile) {
+
+            int startOfRow = whiteTile % dim;
+            int endOfRow = (whiteTile + 1) % dim;
+
+            if (0 != startOfRow && tileClicked == whiteTile - 1) {
+                return true;
+            }
+            if (0 != endOfRow && tileClicked == whiteTile + 1) {
+                return true;
+            }
+
+            return tileClicked == whiteTile - dim || tileClicked == whiteTile + dim;
+        }
+
     }
-    boolean isConnected(int tileClicked, int whiteTile) {
-
-        int startOfRow = whiteTile % dim;
-        int endOfRow = (whiteTile + 1) % dim;
-
-        if (0 != startOfRow && tileClicked == whiteTile - 1) {
-            return true;
-        }
-        if (0 != endOfRow && tileClicked == whiteTile + 1) {
-            return true;
-        }
-
-        return tileClicked == whiteTile - dim || tileClicked == whiteTile + dim;
-    }
-
-}
