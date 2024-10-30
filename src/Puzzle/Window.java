@@ -22,16 +22,30 @@ public class Window extends JFrame {
         JPanel[] panelArray = new JPanel[size];
 
         createPanelArray(panelArray);
-
         createLabelArr(panelArray);
 
         add(grid);
         pack();
 
     }
+    void cheat(JLabel[] labels) {
+        for (int i = 0 ; i < size - 2 ; i++){
+            labels[i].setText(String.valueOf(i+1));
+            labels[i].setBackground(Color.LIGHT_GRAY);
+        }
+        labels[14].setText(String.valueOf(15));
+        labels[14].setBackground(Color.WHITE);
+        labels[15].setText(String.valueOf(14));
+        labels[15].setBackground(Color.LIGHT_GRAY);
+    }
 
-    void isGameWon() {
-
+    boolean isGameWon() {
+        for (int i = size-1; i > 0 ; i--) {
+            if (!labels[i].getText().equals(String.valueOf(i + 1))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     void shuffle() {
@@ -42,7 +56,7 @@ public class Window extends JFrame {
 
         if (isConnected(tileClicked, whiteTile)) {
             labels[whiteTile].setText(labels[tileClicked].getText());
-            labels[whiteTile].setBackground(Color.RED);
+            labels[whiteTile].setBackground(Color.LIGHT_GRAY);
             labels[whiteTile].setVisible(true);
 
             labels[tileClicked].setVisible(false);
@@ -62,14 +76,21 @@ public class Window extends JFrame {
 
         public LabelMouseListener(int index) {
             this.index = index;
+
         }
 
         @Override
         public void mouseClicked(MouseEvent e) {
             System.out.println(index + " actual index");
             System.out.println(labels[index].getText());
-            System.out.println("----");
             moveTile(index);
+            if(isGameWon()){
+                System.out.println("WIN");
+            }
+            for (int i = 0; i < size; i++) {
+                System.out.println("Label " + i + ": " + labels[i].getText());
+            }
+
         }
     }
 
@@ -85,7 +106,7 @@ public class Window extends JFrame {
             labels[i].setHorizontalAlignment(JLabel.CENTER);
             labels[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
             labels[i].setOpaque(true);
-            labels[i].setBackground(Color.GREEN);
+            labels[i].setBackground(Color.LIGHT_GRAY);
             labels[i].addMouseListener(new LabelMouseListener(i));
             panelArray[i].add(labels[i]);
             //saker som bara har med tomma rutan att göra
