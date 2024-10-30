@@ -57,7 +57,7 @@ public class Game {
 
         for (int i = labels.length - 1; i > 0; i--) {
             Random rand  = new Random();
-            int randomIndex = rand.nextInt(i + 1);
+            int randomIndex = rand.nextInt(i);
             String temp = labels[randomIndex].getText();
             labels[randomIndex].setText(labels[i - 1].getText());
             labels[i - 1].setText(temp);
