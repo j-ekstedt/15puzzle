@@ -10,8 +10,21 @@ public class Window extends JFrame {
     int dim = 4; //dimension på spelplanens sida
     int size = dim * dim; //totala storleken
     int whiteTile = size - 1; //Håller koll på vita rutans position, uppdaterad i moveTile()
+
     JPanel grid = new JPanel();
     JLabel[] labels = new JLabel[size];
+    JPanel stats = new JPanel();
+    JPanel options = new JPanel();
+
+    private Features features; // Instans av Features-klassen för spelstatistik
+
+    public Window() {
+        features = new Features("highscore.txt");
+        features.chooseUserName(this);
+        features.startTimer();
+        features.resetStepCounter();
+    }
+
 
     void window() {
         setSize(800, 800);
@@ -25,13 +38,29 @@ public class Window extends JFrame {
 
         createLabelArr(panelArray);
 
-        add(grid);
+        add(grid, BorderLayout.CENTER);
         pack();
+
+        stats.setLayout(new BorderLayout());
+        options.setLayout(new FlowLayout());
+        add(stats, BorderLayout.NORTH);
+        add(options, BorderLayout.SOUTH);
 
     }
 
     void isGameWon() {
+        if (){
+            double elapsedTime = features.stopTimer();
+            int totalSteps = features.getStepCounter();
+            features.updateHighScores(features.getUserName(), elapsedTime, totalSteps);
+            features.showHighScores();
 
+            Features.HighScore bestScore = features.getBestScore();
+            if (bestScore != null) {
+                System.out.println("Ledaren är: " + bestScore.getUserName() + " med "
+                        + bestScore.getTime() + " sekunder och " + bestScore.getSteps() + " drag");
+            }
+        }
     }
 
     void shuffle() {
@@ -48,6 +77,9 @@ public class Window extends JFrame {
             labels[tileClicked].setVisible(false);
 
             whiteTile = tileClicked;
+
+            features.tileStepCounter();
+            isGameWon();
         }
     }
 

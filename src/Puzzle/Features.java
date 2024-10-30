@@ -2,32 +2,30 @@ package Puzzle;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class Features {
 
-    private long startTime;
-    private long endTime;
+    private double startTime;
+    private double stopTime;
     private int stepCounter;
     private String userName;
-    private List<HighScore> highScores;
+    private ArrayList<HighScore> highScores;
+    private final String highScoreFilepath;
 
-    public Features() {
-        highScores = new ArrayList<>();
-    }
-    public void setStartTimer() {
+    public void startTimer() {
         startTime = System.currentTimeMillis();
     }
 
-    public void setEndTimer() {
-        endTime = System.currentTimeMillis();
-        double elapsedTime = (endTime - startTime) / 1000.0;
-        System.out.println("Tid: " + elapsedTime + " sekunder");
+    public double stopTimer() {
+        double stopTime = System.currentTimeMillis();
+        double elapsedTime = (stopTime - startTime) / 1000.0;
+        return elapsedTime;
     }
 
-    public void incrementStepCounter() {
+    public void tileStepCounter() {
         stepCounter++;
         System.out.println("Antal drag: " + stepCounter);
     }
@@ -35,6 +33,7 @@ public class Features {
     public void resetStepCounter() {
         stepCounter = 0;
     }
+
     // username
     public void chooseUserName(JFrame parentframe) {
         JDialog nameDialog = new JDialog(parentframe, "Välj användarnamn", true);
@@ -58,17 +57,16 @@ public class Features {
         nameDialog.setVisible(true);
     }
 
-    /** I Windows
-     * private Features name;
-     * public Windoes(){
-     *     name = new Features ();
-     *     String userName = name.chooseUserName(this);
-     * }
-     */
     // Higshscore
-    public void updateHighScores(String userName, long elapsedTime, int stepCounter) {
+    public Features(String highScoreFilepath) {
+        this.highScoreFilepath = highScoreFilepath;
+        highScores = loadHighScores();
+    }
+
+    public void updateHighScores(String userName, double elapsedTime, int stepCounter) {
         HighScore newScore = new HighScore(userName, elapsedTime, stepCounter);
         highScores.add(newScore);
+        saveHighScores();
     }
 
     public void showHighScores() {
@@ -85,11 +83,35 @@ public class Features {
         }
     }
 
-    // Privat inre klass för att lagra tid och drag för en spelare, implementerar Comparable
-    private class HighScore implements Comparable<HighScore> {
-        private String userName;
-        private double time;
-        private int steps;
+    // Ladda highscore från txtfil
+    private ArrayList<HighScore> loadHighScores() {
+        ArrayList<HighScore> loadedScores = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(highScoreFilepath))) {
+            String line;
+            while ((line = reader.readLine()) != null){
+
+                String[] parts = line.split(",");
+                if (parts.length == 3) {
+                    String name = parts[0];
+                    double time = Double.parseDouble(parts[1]);
+                    int steps = Integer.parseInt(parts[2]);
+                    loadedScores.add(new HighScore(name, time, steps));
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading highscore: " + e.getMessage());
+        }
+        return loadedScores;
+    }
+
+    // Sparar highscore till txtfil
+    private void saveHighScores() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(highScoreFilepath))) {
+            for (HighScore score : highScores) {
+                writer.write(score.getUserName() + "," + score.getTime() + "," + score.getSteps() + "\n");
+            }
+        }
+    }
         // Privat inre klass för att lagra tid och drag för en spelare
         // Och implementerar interfacet Comparable
         private class HighScore implements Comparable<HighScore> {
@@ -115,6 +137,10 @@ public class Features {
                 return steps;
             }
 
+            public HighScore getBestScore() {
+                return highScores.isEmpty() ? null : Collections.min(highScores);
+            }
+
             // Jämför två poäng och returnerar resultatet
             @Override
             public int compareTo(HighScore otherScore) {
@@ -125,19 +151,15 @@ public class Features {
                 } else {
                     return Integer.compare(this.steps, otherScore.getSteps());
                 }
+            }
+
         }
-
-    }
-
-
-    // implemitera
-
-    // infoknapp
-
-    // byta färg på brickor
-
-    // byta färg på spel
-
-
-
 }
+        // implemitera
+        // infoknapp
+        // byta färg på brickor
+        // byta färg på spel
+
+
+
+
