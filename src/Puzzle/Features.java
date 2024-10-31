@@ -142,27 +142,17 @@ public class Features {
             }
         }
     }
+    // Skapar infokanpp
+    public void infoButton(JFrame parentFrame){
+        JButton infoButton = new JButton("Info");
+        infoButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(parentFrame,
+                    "Pusslet går ut på du ska sortera alla block i nummerordning. Från lägsta till högsta siffra. \n" +
+                            "Vänster till höger. Sista rutan ska alltid vara tom. Lycka till!", "Information", JOptionPane.INFORMATION_MESSAGE);
+        });
 
-
+    }
 }
-
-
- /*          String highScoreFilePath = "src/Puzzle/HighScoreList.txt";
-/*          Features features = new Features(filePath);
- *         // Välj användarnamn
- *         features.chooseUserName(this());
- *         // Starta tid
- *         features.startTimer();
- *         // Starta stegräknare vid ett drag
- *         features.tileStepCounter();
- *         // När spelet är slut
- *         boolean gameWon = true;
- *         features.result(gameWon);
- */
-        // implemitera
-        // infoknapp
-        // byta färg på brickor
-        // byta färg på spel
 
 
 
