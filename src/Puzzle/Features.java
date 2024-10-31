@@ -1,5 +1,6 @@
 package Puzzle;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -39,7 +40,11 @@ public class Features {
     // username
     // Metod för att låta spelaren välja ett användarnamn via en dialogruta
     public void chooseUserName() {
+        userName = JOptionPane.showInputDialog(null, "Välj anvåndarmnam");
+    }
 
+    public String getUserName() {
+        return userName;
     }
 
     // Higshscore
@@ -47,10 +52,10 @@ public class Features {
     public void updateHighScores(String userName, double elapsedTime, int stepCounter) {
         HighScore newScore = new HighScore(userName, elapsedTime, stepCounter);
         highScores.add(newScore);
-        // Om det finns mer än 5 klarade omgångar, behåll bara de 3 bästa
-        if (highScores.size() > 5) {
+        // Om det finns mer än 20 klarade omgångar, behåll bara de 20 bästa
+        if (highScores.size() > 20) {
             highScores.sort(Collections.reverseOrder()); // Sortera poängen i fallande ordning
-            highScores = new ArrayList<>(highScores.subList(0, 3));
+            highScores = new ArrayList<>(highScores.subList(0, 20));
         }
 
         highScoreHandler.saveHighScores(highScores); // Spara högsta poängen till filen

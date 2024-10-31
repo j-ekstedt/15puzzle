@@ -48,8 +48,6 @@ public class Window extends JFrame {
         pack();
         stats.setLayout(new GridLayout(1,4,10,0));
 
-        features.chooseUserName();
-
         add(stats, BorderLayout.NORTH);
 
     }
@@ -104,22 +102,19 @@ public class Window extends JFrame {
         newGameLabel.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("newgame");
                     newGame();
                 }
             });
 
-        JLabel optionsLabel = new JLabel("Inställningar");
+        JLabel optionsLabel = new JLabel("Byt namn");
         optionsLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
         optionsLabel.setHorizontalAlignment(JLabel.CENTER);
         optionsLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
         optionsLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // öppna optionsfönster
-                //
-                //TODO namnbyte
-                System.out.println("Inställningar klickad");
+                features.chooseUserName();
+                System.out.println(features.getUserName());
             }
 
         });

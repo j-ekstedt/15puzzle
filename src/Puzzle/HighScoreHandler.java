@@ -1,6 +1,7 @@
 package Puzzle;
 
 import java.io.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
     public class HighScoreHandler {
