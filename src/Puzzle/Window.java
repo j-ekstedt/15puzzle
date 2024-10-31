@@ -9,12 +9,13 @@ import static Puzzle.Game.*;
 
 public class Window extends JFrame {
 
-    int dim = 4; //dimension på spelplanens sida
-    int size = dim * dim; //totala storleken
-    int whiteTile = size - 1; //Håller koll på vita rutans position, uppdaterad i moveTile()
+    private int dim = 4; //dimension på spelplanens sida
+    private int size = dim * dim; //totala storleken
+    private int whiteTile = size - 1; //Håller koll på vita rutans position, uppdaterad i moveTile()
+    private boolean cheating = true;
+
     JPanel grid = new JPanel();
     JLabel[] labels = new JLabel[size];
-    boolean cheating = false;
     JPanel stats = new JPanel();
     JPanel options = new JPanel();
     private Features features; // Instans av Features-klassen för spelstatistik
@@ -127,5 +128,19 @@ public class Window extends JFrame {
                 System.out.println("you won");
             }
         }
+    }
+
+    public int getDim() {
+        return dim;
+    }
+
+    public void setDim(int dim) {
+        this.dim = dim > 1 ? dim : 2;
+        size = dim * dim;
+        whiteTile = size - 1;
+    }
+
+    public void setCheating(boolean cheating) {
+        this.cheating = cheating;
     }
 }
