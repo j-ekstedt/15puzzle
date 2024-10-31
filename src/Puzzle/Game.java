@@ -9,7 +9,7 @@ public class Game {
     /*
     Byter plats på rutan man klickade på med vita rutan.
      */
-    public static int moveTile(int tileClicked, JLabel[] labels, int whiteTile, int dimension) {
+    public static int moveTile(int tileClicked, JLabel[] labels, int whiteTile, int dimension, Features features) {
 
         if (isConnected(tileClicked, whiteTile, dimension)) {
             //byter text
@@ -22,6 +22,7 @@ public class Game {
 
             labels[tileClicked].setVisible(false);
 
+            features.tileStepCounter(); //increment steps
             return tileClicked;
         }
 
