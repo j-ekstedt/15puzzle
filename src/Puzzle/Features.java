@@ -1,24 +1,19 @@
 package Puzzle;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Features {
 
     private double startTime;
-    private double stopTime;
     private int stepCounter;
     private String userName;
     private ArrayList<HighScore> highScores; // Lista för att lagra högsta poäng
-    private final String highScoreFilepath = "src/Puzzle/HighScoreList.txt"; // Filväg för att spara högsta poäng
     private final HighScoreHandler highScoreHandler; // Instans av HighScoreHandler för att hantera högsta poäng
 
     // Konstruktor som initierar HighScoreHandler och laddar högsta poäng från filen
-    public Features(String highScoreFilepath) {
-        this.highScoreHandler = new HighScoreHandler(highScoreFilepath);
+    public Features() {
+        this.highScoreHandler = new HighScoreHandler();
         this.highScores = highScoreHandler.loadHighScores();
     }
     // Metod för att starta timern när spelet börjar
@@ -43,26 +38,8 @@ public class Features {
 
     // username
     // Metod för att låta spelaren välja ett användarnamn via en dialogruta
-    public void chooseUserName(JFrame parentframe) {
-        JDialog nameDialog = new JDialog(parentframe, "Välj användarnamn", true);
-        JPanel namePanel = new JPanel(new FlowLayout());
-        JLabel nameLabel = new JLabel("Välj ett användarnamn: ");
-        JTextField nameTextField = new JTextField(25);
+    public void chooseUserName() {
 
-        namePanel.add(nameLabel);
-        namePanel.add(nameTextField);
-        JButton nameOkButton = new JButton("OK");
-        nameOkButton.addActionListener(e -> {
-            String newName = nameTextField.getText().trim();
-            userName = newName.isEmpty() ? "John Doe" : newName; // Sätter defaultnamn om fältet är tomt
-            nameDialog.dispose();
-        });
-
-        namePanel.add(nameOkButton);
-        nameDialog.add(namePanel);
-        nameDialog.pack();
-        nameDialog.setLocationRelativeTo(parentframe); // Centrera dialogrutan i förhållande till föräldra fönstret
-        nameDialog.setVisible(true);
     }
 
     // Higshscore
@@ -70,8 +47,8 @@ public class Features {
     public void updateHighScores(String userName, double elapsedTime, int stepCounter) {
         HighScore newScore = new HighScore(userName, elapsedTime, stepCounter);
         highScores.add(newScore);
-        // Om det finns mer än 3 klarade omgångar, behåll bara de 3 bästa
-        if (highScores.size() > 3) {
+        // Om det finns mer än 5 klarade omgångar, behåll bara de 3 bästa
+        if (highScores.size() > 5) {
             highScores.sort(Collections.reverseOrder()); // Sortera poängen i fallande ordning
             highScores = new ArrayList<>(highScores.subList(0, 3));
         }
@@ -141,16 +118,6 @@ public class Features {
                 return Integer.compare(this.steps, otherScore.getSteps());
             }
         }
-    }
-    // Skapar infokanpp
-    public void infoButton(JFrame parentFrame){
-        JButton infoButton = new JButton("Info");
-        infoButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(parentFrame,
-                    "Pusslet går ut på du ska sortera alla block i nummerordning. Från lägsta till högsta siffra. \n" +
-                            "Vänster till höger. Sista rutan ska alltid vara tom. Lycka till!", "Information", JOptionPane.INFORMATION_MESSAGE);
-        });
-
     }
 }
 
