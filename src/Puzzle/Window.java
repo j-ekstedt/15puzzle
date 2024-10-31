@@ -14,11 +14,16 @@ public class Window extends JFrame {
     int whiteTile = size - 1; //Håller koll på vita rutans position, uppdaterad i moveTile()
     JPanel grid = new JPanel();
     JLabel[] labels = new JLabel[size];
+    boolean cheating = false;
 
     void startGame() {
-        shuffle(labels);
-        if (!isSolveable(labels)) {
-            startGame();
+        if (cheating) {
+            cheat(labels);
+        } else {
+            shuffle(labels);
+            if (!isSolveable(labels)) {
+                startGame();
+            }
         }
     }
 
@@ -32,7 +37,6 @@ public class Window extends JFrame {
 
         createPanelArray(panelArray);
         createLabelArr(panelArray);
-        cheat(labels);
 
 
         add(grid);
@@ -46,7 +50,6 @@ public class Window extends JFrame {
         labels[size - 2].setVisible(true);
         labels[whiteTile].setText(16 + "");
         labels[whiteTile].setVisible(false);
-
     }
 
     boolean isGameWon() {
@@ -64,14 +67,14 @@ public class Window extends JFrame {
         window.startGame();
     }
 
-        private void createLabelArr(JPanel[] panelArray) {
-            for (int i = 0; i < size; i++) {
-                //saker som alla labels har gemensamt
-                int oneIndexed = i + 1; //faktiska nummret
-                labels[i] = new JLabel(oneIndexed + "");
+    private void createLabelArr(JPanel[] panelArray) {
+        for (int i = 0; i < size; i++) {
+            //saker som alla labels har gemensamt
+            int oneIndexed = i + 1; //faktiska nummret
+            labels[i] = new JLabel(oneIndexed + "");
 
-                labels[i].setFont(new Font("Arial", Font.BOLD, getHeight() / dim / 2));
-                labels[i].setPreferredSize(new Dimension(getWidth() / dim, getHeight() / dim)); //ändra storlek
+            labels[i].setFont(new Font("Arial", Font.BOLD, getHeight() / dim / 2));
+            labels[i].setPreferredSize(new Dimension(getWidth() / dim, getHeight() / dim)); //ändra storlek
 
             labels[i].setHorizontalAlignment(JLabel.CENTER);
             labels[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -85,8 +88,9 @@ public class Window extends JFrame {
             }
         }
     }
+
     private void createPanelArray(JPanel[] panelArray) {
-        for (int i = 0 ; i < size ; i++) {
+        for (int i = 0; i < size; i++) {
             JPanel panel = new JPanel();
             grid.add(panel);
             panelArray[i] = panel;
@@ -101,8 +105,11 @@ public class Window extends JFrame {
         }
 
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public void mousePressed(MouseEvent e) {
             whiteTile = moveTile(index, labels, whiteTile, dim);
+            if (isGameWon()) {
+                System.out.println("you won");
+            }
         }
     }
 }
