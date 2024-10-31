@@ -32,17 +32,17 @@ public class Window extends JFrame {
     }
 
     void cheat(JLabel[] labels) {
-
-        labels[size - 1].setText(String.valueOf(size));
-        labels[size - 2].setText(String.valueOf(size - 1));
-        labels[size - 2].setVisible(false);
-        labels[size - 1].setBackground(Color.LIGHT_GRAY);
-        labels[size - 1].setVisible(true);
+        labels[whiteTile].setVisible(true);
+        whiteTile = size - 2;
+        labels[size - 1].setText(15 + "");
+        labels[size - 2].setVisible(true);
+        labels[whiteTile].setText(16 + "");
+        labels[whiteTile].setVisible(false);
 
     }
 
     boolean isGameWon() {
-        for (int i = size - 1; i > 0; i--) {
+        for (int i = size - 2; i >= 0; i--) {
             if (!labels[i].getText().equals(String.valueOf(i + 1))) {
                 return false;
             }
