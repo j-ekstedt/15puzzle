@@ -21,6 +21,7 @@ public class Window extends JFrame {
     private Features features = new Features(); // Instans av Features-klassen för spelstatistik
 
     void newGame() {
+        features.chooseUserName(); // test
         features.startTimer();
         features.resetStepCounter();
         do {
@@ -103,6 +104,7 @@ public class Window extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                     newGame();
+                System.out.println("NU nu spelar " + features.getUserName());
                 }
             });
 
@@ -114,7 +116,7 @@ public class Window extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 features.chooseUserName();
-                System.out.println(features.getUserName());
+                System.out.println("Du bytte namn till " + features.getUserName());
             }
 
         });

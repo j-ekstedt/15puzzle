@@ -40,10 +40,16 @@ public class Features {
     // username
     // Metod för att låta spelaren välja ett användarnamn via en dialogruta
     public void chooseUserName() {
-        userName = JOptionPane.showInputDialog(null, "Välj anvåndarmnam");
+        userName = JOptionPane.showInputDialog(null, "Välj användarnamn:");
+        if (userName == null || userName.trim().isEmpty()) {
+            userName = "John Doe"; // Default
+        }
     }
 
     public String getUserName() {
+       if (userName == null || userName.isEmpty()) {
+           chooseUserName();
+      }
         return userName;
     }
 
