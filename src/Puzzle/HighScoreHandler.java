@@ -4,11 +4,8 @@ import java.io.*;
 import java.util.ArrayList;
 
     public class HighScoreHandler {
-        private final String filepath;
+        private final String filepath = "src/Puzzle/HighScoreList.txt";
 
-        public HighScoreHandler(String filepath) {
-            this.filepath = filepath;
-        }
         // Metod för att ladda högsta poäng från filen
         public ArrayList<Features.HighScore> loadHighScores() {
             ArrayList<Features.HighScore> loadedScores = new ArrayList<>();
