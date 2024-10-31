@@ -31,10 +31,12 @@ public class Window extends JFrame {
     }
 
     public Window() {
-        features = new Features("highscore.txt");
+        features = new Features("src/Puzzle/HighScoreList.txt");
         features.chooseUserName(this);
         features.startTimer();
         features.resetStepCounter();
+        boolean gameWon = true;
+        features.result(gameWon);
     }
 
 
