@@ -19,7 +19,8 @@ public class Window extends JFrame {
     JLabel[] labels = new JLabel[size];
     JPanel stats = new JPanel();
     private Features features = new Features(); // Instans av Features-klassen för spelstatistik
-
+    private JLabel stepsLabel;
+    private JLabel timeLabel;
     void newGame() {
         features.chooseUserName(); // test
         features.startTimer();
@@ -29,7 +30,7 @@ public class Window extends JFrame {
         } while (!isSolveable(labels));
     }
     void endGame() {
-        JOptionPane.showMessageDialog(null,"Grattis, du vann!");
+        JOptionPane.showMessageDialog(null,"Grattis, du vann efter " + features.getStepCounter() + " drag!");
         features.resetStepCounter();
         features.stopTimer();
         features.result(true);
@@ -121,12 +122,12 @@ public class Window extends JFrame {
 
         });
 
-        JLabel timeLabel = new JLabel("Tid: " + "02:22");
+        timeLabel = new JLabel("Tid: 13:37");
         timeLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
         timeLabel.setHorizontalAlignment(JLabel.CENTER);
         timeLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
 
-        JLabel stepsLabel = new JLabel("Antal drag: " + "32" );
+        stepsLabel = new JLabel("Antal drag: " + features.getStepCounter() );
         stepsLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
         stepsLabel.setHorizontalAlignment(JLabel.CENTER);
         stepsLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
@@ -147,10 +148,13 @@ public class Window extends JFrame {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            whiteTile = moveTile(index, labels, whiteTile, dim, features);
+            whiteTile = moveTile(index, labels, whiteTile, dim, features, Window.this);
             if (isGameWon()) {
                 endGame();
             }
         }
+    }
+    public void setStepLabelText(){
+        stepsLabel.setText("Antal drag: " + features.getStepCounter());
     }
 }

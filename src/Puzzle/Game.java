@@ -9,9 +9,10 @@ public class Game {
     /*
     Byter plats på rutan man klickade på med vita rutan.
      */
-    public static int moveTile(int tileClicked, JLabel[] labels, int whiteTile, int dimension, Features features) {
+    public static int moveTile(int tileClicked, JLabel[] labels, int whiteTile, int dimension, Features features, Window window) {
 
         if (isConnected(tileClicked, whiteTile, dimension)) {
+
             //byter text
             String temp = labels[whiteTile].getText();
             labels[whiteTile].setText(labels[tileClicked].getText());
@@ -23,6 +24,7 @@ public class Game {
             labels[tileClicked].setVisible(false);
 
             features.tileStepCounter(); //increment steps
+            window.setStepLabelText();
             return tileClicked;
         }
 

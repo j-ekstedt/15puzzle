@@ -1,12 +1,14 @@
 package Puzzle;
 
 import javax.swing.*;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Features {
 
-    private double startTime;
+    private Instant startTime = Instant.now();
     private int stepCounter;
     private String userName;
     private ArrayList<HighScore> highScores; // Lista för att lagra högsta poäng
@@ -19,12 +21,12 @@ public class Features {
     }
     // Metod för att starta timern när spelet börjar
     public void startTimer() {
-        startTime = System.currentTimeMillis(); // Sparar nuvarande tid som starttid
+        this.startTime = Instant.now(); // Sparar nuvarande tid som starttid
     }
     // Metod för att stoppa timern och returnera den förflutna tiden i sekunder
-    public double stopTimer() {
-        double stopTime = System.currentTimeMillis();
-        double elapsedTime = (stopTime - startTime) / 1000.0;
+    public Duration stopTimer() {
+        Instant stopTime = Instant.now();
+        Duration elapsedTime = Duration.between(startTime, stopTime);
         return elapsedTime;
     }
     // Metod för att öka steg räknaren med 1 varje gång spelaren gör ett drag
@@ -55,7 +57,7 @@ public class Features {
 
     // Higshscore
     // Metod för att uppdatera högsta poäng med en ny spelpoäng
-    public void updateHighScores(String userName, double elapsedTime, int stepCounter) {
+    public void updateHighScores(String userName, Duration elapsedTime, int stepCounter) {
         HighScore newScore = new HighScore(userName, elapsedTime, stepCounter);
         highScores.add(newScore);
         // Om det finns mer än 20 klarade omgångar, behåll bara de 20 bästa
@@ -68,6 +70,7 @@ public class Features {
     }
     // Metod för att visa alla högsta poäng
     public void showHighScores() {
+
         if (highScores.isEmpty()) {
             System.out.println("Finns ännu ingen vinnare");
         } else {
@@ -85,16 +88,22 @@ public class Features {
     // Metod för att hantera resultatet av spelet när det är slut
     public void result(boolean gameWon) {
         if (gameWon) {
-            double elapsedTime = stopTimer();
+            Duration elapsedTime = stopTimer();
             int totalSteps = stepCounter;
             updateHighScores(userName, elapsedTime, totalSteps);
             showHighScores();
         }
     }
 
+    public int getStepCounter() {
+        return this.stepCounter;
+    }
+
+
+
     // Inre klass för att lagra tid och drag för en spelare
     // Implementerar interfacet Comparable för att jämföra poäng
-    public static class HighScore implements Comparable<HighScore> {
+    /*public static class HighScore implements Comparable<HighScore> {
         private String userName;
         private double time;
         private int steps;
@@ -129,5 +138,5 @@ public class Features {
                 return Integer.compare(this.steps, otherScore.getSteps());
             }
         }
-    }
+    }*/
 }
