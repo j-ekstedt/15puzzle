@@ -110,6 +110,8 @@ public class Features {
             for (HighScore score : highScores) {
                 writer.write(score.getUserName() + "," + score.getTime() + "," + score.getSteps() + "\n");
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
         // Privat inre klass för att lagra tid och drag för en spelare
@@ -154,6 +156,26 @@ public class Features {
             }
 
         }
+    public HighScore getBestScore() {
+        return highScores.isEmpty() ? null : Collections.min(highScores);
+    }
+    public void result (boolean gameWon) {
+        if (gameWon) {
+
+            double elapsedTime = stopTimer();
+            int totalSteps = stepCounter;
+
+            updateHighScores(userName, elapsedTime, totalSteps);
+
+            showHighScores();
+
+            HighScore bestScore = getBestScore();
+            if (bestScore != null) {
+                System.out.println("Ledaren är: " + bestScore.getUserName() + " med "
+                        + bestScore.getTime() + " sekunder och " + bestScore.getSteps() + " drag");
+            }
+        }
+    }
 }
         // implemitera
         // infoknapp

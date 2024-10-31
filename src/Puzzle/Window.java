@@ -15,6 +15,9 @@ public class Window extends JFrame {
     JPanel grid = new JPanel();
     JLabel[] labels = new JLabel[size];
     boolean cheating = false;
+    JPanel stats = new JPanel();
+    JPanel options = new JPanel();
+    private Features features; // Instans av Features-klassen för spelstatistik
 
     void startGame() {
         if (cheating) {
@@ -26,10 +29,6 @@ public class Window extends JFrame {
             }
         }
     }
-    JPanel stats = new JPanel();
-    JPanel options = new JPanel();
-
-    private Features features; // Instans av Features-klassen för spelstatistik
 
     public Window() {
         features = new Features("highscore.txt");
@@ -60,20 +59,6 @@ public class Window extends JFrame {
 
     }
 
-    void isGameWon() {
-        if (){
-            double elapsedTime = features.stopTimer();
-            int totalSteps = features.getStepCounter();
-            features.updateHighScores(features.getUserName(), elapsedTime, totalSteps);
-            features.showHighScores();
-
-            Features.HighScore bestScore = features.getBestScore();
-            if (bestScore != null) {
-                System.out.println("Ledaren är: " + bestScore.getUserName() + " med "
-                        + bestScore.getTime() + " sekunder och " + bestScore.getSteps() + " drag");
-            }
-        }
-    }
 
     void cheat(JLabel[] labels) {
         labels[whiteTile].setVisible(true);
