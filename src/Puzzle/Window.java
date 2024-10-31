@@ -29,6 +29,7 @@ public class Window extends JFrame {
         } while (!isSolveable(labels));
     }
     void endGame() {
+        JOptionPane.showMessageDialog(null,"Grattis, du vann!");
         features.resetStepCounter();
         features.stopTimer();
         features.result(true);
