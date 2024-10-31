@@ -31,11 +31,31 @@ public class Window extends JFrame {
         JPanel[] panelArray = new JPanel[size];
 
         createPanelArray(panelArray);
-
         createLabelArr(panelArray);
+        cheat(labels);
+
 
         add(grid);
         pack();
+    }
+
+    void cheat(JLabel[] labels) {
+        labels[whiteTile].setVisible(true);
+        whiteTile = size - 2;
+        labels[size - 1].setText(15 + "");
+        labels[size - 2].setVisible(true);
+        labels[whiteTile].setText(16 + "");
+        labels[whiteTile].setVisible(false);
+
+    }
+
+    boolean isGameWon() {
+        for (int i = size - 2; i >= 0; i--) {
+            if (!labels[i].getText().equals(String.valueOf(i + 1))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void main(String[] args) {
@@ -44,14 +64,14 @@ public class Window extends JFrame {
         window.startGame();
     }
 
-    private void createLabelArr(JPanel[] panelArray) {
-        for (int i = 0; i < size; i++) {
-            //saker som alla labels har gemensamt
-            int oneIndexed = i + 1; //faktiska nummret
-            labels[i] = new JLabel(oneIndexed + "");
+        private void createLabelArr(JPanel[] panelArray) {
+            for (int i = 0; i < size; i++) {
+                //saker som alla labels har gemensamt
+                int oneIndexed = i + 1; //faktiska nummret
+                labels[i] = new JLabel(oneIndexed + "");
 
-            labels[i].setFont(new Font("Arial", Font.BOLD, getHeight() / dim / 2));
-            labels[i].setPreferredSize(new Dimension(getWidth() / dim, getHeight() / dim)); //ändra storlek
+                labels[i].setFont(new Font("Arial", Font.BOLD, getHeight() / dim / 2));
+                labels[i].setPreferredSize(new Dimension(getWidth() / dim, getHeight() / dim)); //ändra storlek
 
             labels[i].setHorizontalAlignment(JLabel.CENTER);
             labels[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
