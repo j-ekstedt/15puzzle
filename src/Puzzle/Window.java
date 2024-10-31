@@ -82,7 +82,7 @@ public class Window extends JFrame {
         }
 
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public void mousePressed(MouseEvent e) {
             System.out.println(index + " actual index");
             System.out.println(labels[index].getText());
             moveTile(index);
