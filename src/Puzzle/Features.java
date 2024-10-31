@@ -9,16 +9,18 @@ import java.util.Collections;
 public class Features {
 
     private Instant startTime = Instant.now();
+    private Duration elapsedTime;
     private int stepCounter;
     private String userName;
     private ArrayList<HighScore> highScores; // Lista för att lagra högsta poäng
-    private final HighScoreHandler highScoreHandler; // Instans av HighScoreHandler för att hantera högsta poäng
+    private HighScoreHandler highScoreHandler; // Instans av HighScoreHandler för att hantera högsta poäng
 
     // Konstruktor som initierar HighScoreHandler och laddar högsta poäng från filen
     public Features() {
         this.highScoreHandler = new HighScoreHandler();
         this.highScores = highScoreHandler.loadHighScores();
     }
+
     // Metod för att starta timern när spelet börjar
     public void startTimer() {
         this.startTime = Instant.now(); // Sparar nuvarande tid som starttid
@@ -26,12 +28,12 @@ public class Features {
     // Metod för att stoppa timern och returnera den förflutna tiden i sekunder
     public Duration stopTimer() {
         Instant stopTime = Instant.now();
-        Duration elapsedTime = Duration.between(startTime, stopTime);
+        elapsedTime = Duration.between(startTime, stopTime);
         return elapsedTime;
     }
     // Metod för att öka steg räknaren med 1 varje gång spelaren gör ett drag
     public void tileStepCounter() {
-        stepCounter++;
+        stepCounter += 1;
         System.out.println("Antal drag: " + stepCounter);
     }
     // Metod för att återställa steg räknaren till 0
@@ -88,7 +90,7 @@ public class Features {
     // Metod för att hantera resultatet av spelet när det är slut
     public void result(boolean gameWon) {
         if (gameWon) {
-            Duration elapsedTime = stopTimer();
+//            Duration elapsedTime = stopTimer();
             int totalSteps = stepCounter;
             updateHighScores(userName, elapsedTime, totalSteps);
             showHighScores();

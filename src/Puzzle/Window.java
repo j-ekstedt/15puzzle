@@ -31,9 +31,10 @@ public class Window extends JFrame {
     }
     void endGame() {
         JOptionPane.showMessageDialog(null,"Grattis, du vann efter " + features.getStepCounter() + " drag!");
-        features.resetStepCounter();
         features.stopTimer();
         features.result(true);
+        features.resetStepCounter();
+        features.startTimer();
     }
 
     void window() {
