@@ -2,6 +2,8 @@ package Puzzle;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -14,7 +16,7 @@ public class Window extends JFrame {
     int whiteTile = size - 1; //Håller koll på vita rutans position, uppdaterad i moveTile()
     JPanel grid = new JPanel();
     JLabel[] labels = new JLabel[size];
-    boolean cheating = true;
+    boolean cheating = false;
     JPanel stats = new JPanel();
     JPanel options = new JPanel();
     private Features features; // Instans av Features-klassen för spelstatistik
@@ -54,6 +56,7 @@ public class Window extends JFrame {
         pack();
 
         stats.setLayout(new GridLayout(1,4,10,0));
+
         options.setLayout(new FlowLayout());
         add(stats, BorderLayout.NORTH);
         add(options, BorderLayout.SOUTH);
@@ -118,11 +121,29 @@ public class Window extends JFrame {
         newGameLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
         newGameLabel.setHorizontalAlignment(JLabel.CENTER);
         newGameLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
+        newGameLabel.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                    startGame();
+
+                }
+            });
 
         JLabel optionsLabel = new JLabel("Inställnigar");
         optionsLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
         optionsLabel.setHorizontalAlignment(JLabel.CENTER);
         optionsLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
+        optionsLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // öppna optionsfönster
+                //
+                //
+                System.out.println("Inställningar klickad");
+            }
+
+        });
+
 
         JLabel timeLabel = new JLabel("Tid: " + "02:22");
         timeLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
@@ -138,6 +159,7 @@ public class Window extends JFrame {
         stats.add(optionsLabel);
         stats.add(timeLabel);
         stats.add(stepsLabel);
+
 
     }
 
