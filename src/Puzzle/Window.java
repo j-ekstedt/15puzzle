@@ -14,7 +14,7 @@ public class Window extends JFrame {
     int whiteTile = size - 1; //Håller koll på vita rutans position, uppdaterad i moveTile()
     JPanel grid = new JPanel();
     JLabel[] labels = new JLabel[size];
-    boolean cheating = false;
+    boolean cheating = true;
     JPanel stats = new JPanel();
     JPanel options = new JPanel();
     private Features features; // Instans av Features-klassen för spelstatistik
@@ -48,11 +48,12 @@ public class Window extends JFrame {
 
         createPanelArray(panelArray);
         createLabelArr(panelArray);
+        createLabelButtons();
 
         add(grid, BorderLayout.CENTER);
         pack();
 
-        stats.setLayout(new BorderLayout());
+        stats.setLayout(new GridLayout(1,4,10,0));
         options.setLayout(new FlowLayout());
         add(stats, BorderLayout.NORTH);
         add(options, BorderLayout.SOUTH);
@@ -94,9 +95,9 @@ public class Window extends JFrame {
             labels[i].setPreferredSize(new Dimension(getWidth() / dim, getHeight() / dim)); //ändra storlek
 
             labels[i].setHorizontalAlignment(JLabel.CENTER);
-            labels[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            labels[i].setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3));
             labels[i].setOpaque(true);
-            labels[i].setBackground(Color.GREEN);
+            labels[i].setBackground(Color.LIGHT_GRAY);
             labels[i].addMouseListener(new LabelMouseListener(i));
             panelArray[i].add(labels[i]);
             //saker som bara har med tomma rutan att göra
@@ -111,6 +112,33 @@ public class Window extends JFrame {
             grid.add(panel);
             panelArray[i] = panel;
         }
+    }
+    private void createLabelButtons(){
+        JLabel newGameLabel = new JLabel ("Nytt spel");
+        newGameLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
+        newGameLabel.setHorizontalAlignment(JLabel.CENTER);
+        newGameLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
+
+        JLabel optionsLabel = new JLabel("Inställnigar");
+        optionsLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
+        optionsLabel.setHorizontalAlignment(JLabel.CENTER);
+        optionsLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
+
+        JLabel timeLabel = new JLabel("Tid: " + "02:22");
+        timeLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
+        timeLabel.setHorizontalAlignment(JLabel.CENTER);
+        timeLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
+
+        JLabel stepsLabel = new JLabel("Antal drag: " + "32" );
+        stepsLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
+        stepsLabel.setHorizontalAlignment(JLabel.CENTER);
+        stepsLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
+
+        stats.add(newGameLabel);
+        stats.add(optionsLabel);
+        stats.add(timeLabel);
+        stats.add(stepsLabel);
+
     }
 
     private class LabelMouseListener extends MouseAdapter {
