@@ -2,8 +2,6 @@ package Puzzle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -14,34 +12,27 @@ public class Window extends JFrame {
     private int dim = 4; //dimension på spelplanens sida
     private int size = dim * dim; //totala storleken
     private int whiteTile = size - 1; //Håller koll på vita rutans position, uppdaterad i moveTile()
-    private boolean cheating = true;
+    private boolean cheating = false;
 
     JPanel grid = new JPanel();
+    JPanel[] panelArray;
     JLabel[] labels = new JLabel[size];
     JPanel stats = new JPanel();
-    JPanel options = new JPanel();
-    private Features features; // Instans av Features-klassen för spelstatistik
+    private Features features = new Features(); // Instans av Features-klassen för spelstatistik
 
-    void startGame() {
-        if (cheating) {
-            cheat(labels);
-        } else {
-            shuffle(labels);
-            if (!isSolveable(labels)) {
-                startGame();
-            }
-        }
-    }
-
-    public Window() {
-        features = new Features("src/Puzzle/HighScoreList.txt");
-        features.chooseUserName(this);
+    void newGame() {
         features.startTimer();
         features.resetStepCounter();
-        boolean gameWon = true;
-        features.result(gameWon);
+        do {
+            shuffle(labels);
+        } while (!isSolveable(labels));
     }
-
+    void endGame() {
+        System.out.println("you won");
+        features.resetStepCounter();
+        features.stopTimer();
+        features.result(true);
+    }
 
     void window() {
         setSize(800, 800);
@@ -49,31 +40,18 @@ public class Window extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         grid.setLayout(new GridLayout(dim, dim));
         grid.setOpaque(false);
-        JPanel[] panelArray = new JPanel[size];
-
+        panelArray = new JPanel[size];
+        createLabelButtons();
+        add(grid, BorderLayout.CENTER);
         createPanelArray(panelArray);
         createLabelArr(panelArray);
-        createLabelButtons();
-
-        add(grid, BorderLayout.CENTER);
         pack();
-
         stats.setLayout(new GridLayout(1,4,10,0));
 
-        options.setLayout(new FlowLayout());
+        features.chooseUserName();
+
         add(stats, BorderLayout.NORTH);
-        add(options, BorderLayout.SOUTH);
 
-    }
-
-
-    void cheat(JLabel[] labels) {
-        labels[whiteTile].setVisible(true);
-        whiteTile = size - 2;
-        labels[size - 1].setText(15 + "");
-        labels[size - 2].setVisible(true);
-        labels[whiteTile].setText(16 + "");
-        labels[whiteTile].setVisible(false);
     }
 
     boolean isGameWon() {
@@ -88,7 +66,6 @@ public class Window extends JFrame {
     public static void main(String[] args) {
         Window window = new Window();
         window.window();
-        window.startGame();
     }
 
     private void createLabelArr(JPanel[] panelArray) {
@@ -127,12 +104,12 @@ public class Window extends JFrame {
         newGameLabel.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e) {
-                    startGame();
-
+                System.out.println("newgame");
+                    newGame();
                 }
             });
 
-        JLabel optionsLabel = new JLabel("Inställnigar");
+        JLabel optionsLabel = new JLabel("Inställningar");
         optionsLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
         optionsLabel.setHorizontalAlignment(JLabel.CENTER);
         optionsLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
@@ -141,12 +118,11 @@ public class Window extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 // öppna optionsfönster
                 //
-                //
+                //TODO namnbyte
                 System.out.println("Inställningar klickad");
             }
 
         });
-
 
         JLabel timeLabel = new JLabel("Tid: " + "02:22");
         timeLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
@@ -163,7 +139,6 @@ public class Window extends JFrame {
         stats.add(timeLabel);
         stats.add(stepsLabel);
 
-
     }
 
     private class LabelMouseListener extends MouseAdapter {
@@ -175,24 +150,10 @@ public class Window extends JFrame {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            whiteTile = moveTile(index, labels, whiteTile, dim);
+            whiteTile = moveTile(index, labels, whiteTile, dim, features);
             if (isGameWon()) {
-                System.out.println("you won");
+                endGame();
             }
         }
-    }
-
-    public int getDim() {
-        return dim;
-    }
-
-    public void setDim(int dim) {
-        this.dim = dim > 1 ? dim : 2;
-        size = dim * dim;
-        whiteTile = size - 1;
-    }
-
-    public void setCheating(boolean cheating) {
-        this.cheating = cheating;
     }
 }
