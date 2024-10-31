@@ -17,7 +17,7 @@ public class Game {
             labels[whiteTile].setText(labels[tileClicked].getText());
             labels[tileClicked].setText(temp);
 
-            labels[whiteTile].setBackground(Color.RED);
+            labels[whiteTile].setBackground(Color.LIGHT_GRAY);
             labels[whiteTile].setVisible(true);
 
             labels[tileClicked].setVisible(false);
