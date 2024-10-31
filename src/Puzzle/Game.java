@@ -82,7 +82,7 @@ public class Game {
             }
         }
 
-//        return inversions % 2 == 0;
+//      return inversions % 2 == 0;
         return (inversions & 1) == 0;
     }
 }
