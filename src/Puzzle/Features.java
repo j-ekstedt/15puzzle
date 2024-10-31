@@ -47,9 +47,9 @@ public class Features {
     }
 
     public String getUserName() {
-       if (userName == null || userName.isEmpty()) {
-           chooseUserName();
-      }
+        if (userName == null || userName.isEmpty()) {
+            chooseUserName();
+        }
         return userName;
     }
 
@@ -95,9 +95,9 @@ public class Features {
     // Inre klass för att lagra tid och drag för en spelare
     // Implementerar interfacet Comparable för att jämföra poäng
     public static class HighScore implements Comparable<HighScore> {
-         private String userName;
-         private double time;
-         private int steps;
+        private String userName;
+        private double time;
+        private int steps;
 
         public HighScore(String userName, double time, int steps) {
             this.userName = userName;
@@ -131,7 +131,3 @@ public class Features {
         }
     }
 }
-
-
-
-

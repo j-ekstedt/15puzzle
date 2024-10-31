@@ -29,7 +29,6 @@ public class Window extends JFrame {
         } while (!isSolveable(labels));
     }
     void endGame() {
-        System.out.println("you won");
         features.resetStepCounter();
         features.stopTimer();
         features.result(true);
@@ -103,10 +102,10 @@ public class Window extends JFrame {
         newGameLabel.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e) {
-                    newGame();
+                newGame();
                 System.out.println("NU nu spelar " + features.getUserName());
-                }
-            });
+            }
+        });
 
         JLabel optionsLabel = new JLabel("Byt namn");
         optionsLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
