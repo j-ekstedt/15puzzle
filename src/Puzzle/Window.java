@@ -22,6 +22,24 @@ public class Window extends JFrame {
     private JLabel stepsLabel;
     private JLabel timeLabel;
 
+    public void window() {
+        setSize(800, 800);
+        setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        grid.setLayout(new GridLayout(dim, dim));
+        grid.setOpaque(false);
+        panelArray = new JPanel[size];
+        createLabelButtons();
+        add(grid, BorderLayout.CENTER);
+        createPanelArray(panelArray);
+        createLabelArr(panelArray);
+        pack();
+        stats.setLayout(new GridLayout(1,4,10,0));
+
+        add(stats, BorderLayout.NORTH);
+
+    }
+
     void newGame() {
         features.stopTimer();
         features.chooseUserName(); // test
@@ -41,24 +59,6 @@ public class Window extends JFrame {
 
     }
 
-    void window() {
-        setSize(800, 800);
-        setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        grid.setLayout(new GridLayout(dim, dim));
-        grid.setOpaque(false);
-        panelArray = new JPanel[size];
-        createLabelButtons();
-        add(grid, BorderLayout.CENTER);
-        createPanelArray(panelArray);
-        createLabelArr(panelArray);
-        pack();
-        stats.setLayout(new GridLayout(1,4,10,0));
-
-        add(stats, BorderLayout.NORTH);
-
-    }
-
     boolean isGameWon() {
         for (int i = size - 2; i >= 0; i--) {
             if (!labels[i].getText().equals(String.valueOf(i + 1))) {
@@ -66,11 +66,6 @@ public class Window extends JFrame {
             }
         }
         return true;
-    }
-
-    public static void main(String[] args) {
-        Window window = new Window();
-        window.window();
     }
 
     private void createLabelArr(JPanel[] panelArray) {

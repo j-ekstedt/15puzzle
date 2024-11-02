@@ -26,7 +26,7 @@ public class Features {
         this.highScores = highScoreHandler.loadHighScores();
         userName = getUserName();
 
-        gameTimer = new Timer(1000, new ActionListener() {
+        gameTimer = new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (startTime != null) {
