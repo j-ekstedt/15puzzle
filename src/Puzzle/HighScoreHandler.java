@@ -35,7 +35,7 @@ public class HighScoreHandler {
             for (HighScore score : highScores) {
                 double seconds = score.getTime().toMillis() / 1000.0;
                 String formattedTime = String.format("%.2f", seconds);
-                writer.write("Användare: " +score.getUserName() + ", tid: " + formattedTime + ", antal steg: " + score.getSteps() + "\n");
+                writer.write("Användare: " + score.getUserName() + ", tid: " + formattedTime + ", antal steg: " + score.getSteps() + "\n");
             }
         } catch (IOException e) {
             System.out.println("Error spara fil" + e.getMessage());

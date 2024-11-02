@@ -105,7 +105,7 @@ public class Features {
                 double seconds = score.getTime().toMillis() / 1000.0;
                 String formattedTime = String.format("%.2f", seconds);
                 // Skriv ut varje poäng med användarnamn, tid och drag
-                System.out.println("- " + score.getUserName() + ": " + formattedTime + " sekunder, " + score.getSteps() + " drag");
+                System.out.println(score.getUserName() + ": " + formattedTime + " sekunder, " + score.getSteps() + " drag");
             }
         }
     }
