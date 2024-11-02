@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+
 import static Puzzle.Game.*;
 
 public class Window extends JFrame {
@@ -12,7 +13,6 @@ public class Window extends JFrame {
     private int dim = 4; //dimension på spelplanens sida
     private int size = dim * dim; //totala storleken
     private int whiteTile = size - 1; //Håller koll på vita rutans position, uppdaterad i moveTile()
-    private boolean cheating = false;
 
     JPanel grid = new JPanel();
     JPanel[] panelArray;
@@ -21,10 +21,13 @@ public class Window extends JFrame {
     private Features features = new Features(); // Instans av Features-klassen för spelstatistik
     private JLabel stepsLabel;
     private JLabel timeLabel;
+
     void newGame() {
+        features.stopTimer();
         features.chooseUserName(); // test
-        features.startTimer();
         features.resetStepCounter();
+        features.startTimer();
+
         do {
             shuffle(labels);
         } while (!isSolveable(labels));
@@ -35,6 +38,7 @@ public class Window extends JFrame {
         features.result(true);
         features.resetStepCounter();
         features.startTimer();
+
     }
 
     void window() {
@@ -123,7 +127,7 @@ public class Window extends JFrame {
 
         });
 
-        timeLabel = new JLabel("Tid: 13:37");
+        timeLabel = new JLabel("Tid: 0:00");
         timeLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
         timeLabel.setHorizontalAlignment(JLabel.CENTER);
         timeLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
@@ -137,6 +141,7 @@ public class Window extends JFrame {
         stats.add(optionsLabel);
         stats.add(timeLabel);
         stats.add(stepsLabel);
+        features.setTimerListener((formattedTime) -> timeLabel.setText(formattedTime));
 
     }
 

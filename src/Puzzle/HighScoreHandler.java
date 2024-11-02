@@ -17,10 +17,10 @@ public class HighScoreHandler {
                 String[] parts = line.split(",");
                 if (parts.length == 3) {
                     String name = parts[0];
-                    Duration time = Duration.parse(parts[1]);
+                    double seconds = Double.parseDouble(parts[1]);
+                    Duration time = Duration.ofMillis((long) (seconds * 1000));
                     int steps = Integer.parseInt(parts[2]);
                     loadedScores.add(new HighScore(name , time, steps));
-                    //TODO                                    ^ detta behöver fixas, skrev bara in så för tillfället, just nu sparas endast sista tiden
                 }
             }
         } catch (IOException | NumberFormatException e) {
@@ -33,10 +33,9 @@ public class HighScoreHandler {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath, true))) {
             for (HighScore score : highScores) {
-                String formattedTime = score.getTime().toString();
-                formattedTime = formattedTime.substring(2, formattedTime.indexOf('.') + 1);
-                //TODO byt ut score.getTime() i writern med formatted time för att få den i sekunder.
-                writer.write(score.getUserName() + "," + score.getTime() + "," + score.getSteps() + "\n");
+                double seconds = score.getTime().toMillis() / 1000.0;
+                String formattedTime = String.format("%.2f", seconds);
+                writer.write("Användare: " +score.getUserName() + ", tid: " + formattedTime + ", antal steg: " + score.getSteps() + "\n");
             }
         } catch (IOException e) {
             System.out.println("Error spara fil" + e.getMessage());

@@ -1,39 +1,64 @@
 package Puzzle;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.function.Consumer;
 
 public class Features {
 
     private Instant startTime = Instant.now();
-    private Duration elapsedTime;
     private int stepCounter;
     private String userName;
     private ArrayList<HighScore> highScores; // Lista för att lagra högsta poäng
-    private HighScoreHandler highScoreHandler; // Instans av HighScoreHandler för att hantera högsta poäng
+    private final HighScoreHandler highScoreHandler; // Instans av HighScoreHandler för att hantera högsta poäng
+    private Timer gameTimer;
+    private Consumer<String> timerListener;
+
 
     // Konstruktor som initierar HighScoreHandler och laddar högsta poäng från filen
     public Features() {
         this.highScoreHandler = new HighScoreHandler();
         this.highScores = highScoreHandler.loadHighScores();
-    }
+        userName = getUserName();
 
+        gameTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (startTime != null) {
+                    Duration elapsedTime = Duration.between(startTime, Instant.now());
+                    double seconds = elapsedTime.toMillis() / 1000.0;
+                    if (timerListener != null) {
+                        // Pass the formatted time to the listener
+                        timerListener.accept(String.format("Tid: %.2f sekunder", seconds));
+                    }
+                }
+            }
+        });
+    }
     // Metod för att starta timern när spelet börjar
     public void startTimer() {
         this.startTime = Instant.now(); // Sparar nuvarande tid som starttid
+        gameTimer.start();
     }
     // Metod för att stoppa timern och returnera den förflutna tiden i sekunder
     public Duration stopTimer() {
+        gameTimer.stop();
         Instant stopTime = Instant.now();
-        elapsedTime = Duration.between(startTime, stopTime);
+        Duration elapsedTime = Duration.between(startTime, stopTime);
         return elapsedTime;
+    }
+
+    public void setTimerListener(Consumer<String> listener) {
+        this.timerListener = listener; //
     }
     // Metod för att öka steg räknaren med 1 varje gång spelaren gör ett drag
     public void tileStepCounter() {
-        stepCounter += 1;
+        stepCounter++;
         System.out.println("Antal drag: " + stepCounter);
     }
     // Metod för att återställa steg räknaren till 0
@@ -41,18 +66,17 @@ public class Features {
         stepCounter = 0;
     }
 
-    // username
     // Metod för att låta spelaren välja ett användarnamn via en dialogruta
     public void chooseUserName() {
-        userName = JOptionPane.showInputDialog(null, "Välj användarnamn:");
-        if (userName == null || userName.trim().isEmpty()) {
-            userName = "John Doe"; // Default
+        String input = JOptionPane.showInputDialog(null, "Välj användarnamn:");
+        if (input != null && !input.trim().isEmpty()) {
+            userName = input;
         }
     }
 
     public String getUserName() {
         if (userName == null || userName.isEmpty()) {
-            chooseUserName();
+            userName = "John Doe";
         }
         return userName;
     }
@@ -78,8 +102,10 @@ public class Features {
         } else {
             System.out.println("Highscore: ");
             for (HighScore score : highScores) {
+                double seconds = score.getTime().toMillis() / 1000.0;
+                String formattedTime = String.format("%.2f", seconds);
                 // Skriv ut varje poäng med användarnamn, tid och drag
-                System.out.println("- " + score.getUserName() + ": " + score.getTime() + " sekunder, " + score.getSteps() + " drag");
+                System.out.println("- " + score.getUserName() + ": " + formattedTime + " sekunder, " + score.getSteps() + " drag");
             }
         }
     }
@@ -90,7 +116,7 @@ public class Features {
     // Metod för att hantera resultatet av spelet när det är slut
     public void result(boolean gameWon) {
         if (gameWon) {
-//            Duration elapsedTime = stopTimer();
+            Duration elapsedTime = stopTimer();
             int totalSteps = stepCounter;
             updateHighScores(userName, elapsedTime, totalSteps);
             showHighScores();
@@ -100,45 +126,4 @@ public class Features {
     public int getStepCounter() {
         return this.stepCounter;
     }
-
-
-
-    // Inre klass för att lagra tid och drag för en spelare
-    // Implementerar interfacet Comparable för att jämföra poäng
-    /*public static class HighScore implements Comparable<HighScore> {
-        private String userName;
-        private double time;
-        private int steps;
-
-        public HighScore(String userName, double time, int steps) {
-            this.userName = userName;
-            this.time = time;
-            this.steps = steps;
-        }
-
-        public String getUserName() {
-            return userName;
-        }
-
-        public double getTime() {
-            return time;
-        }
-
-        public int getSteps() {
-            return steps;
-        }
-
-
-        // Jämför två poäng och returnerar resultatet
-        @Override
-        public int compareTo(HighScore otherScore) {
-            if (this.time < otherScore.getTime()) {
-                return -1;
-            } else if (this.time > otherScore.getTime()) {
-                return 1;
-            } else {
-                return Integer.compare(this.steps, otherScore.getSteps());
-            }
-        }
-    }*/
 }

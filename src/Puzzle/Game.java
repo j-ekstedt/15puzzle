@@ -2,6 +2,8 @@ package Puzzle;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Game {
@@ -57,6 +59,8 @@ public class Game {
     fast för arrays istället, den borde funka likadant.
      */
     public static void shuffle(JLabel[] labels) {
+
+        //TODO sortera innan
 
         for (int i = labels.length - 1; i > 0; i--) {
             Random rand  = new Random();

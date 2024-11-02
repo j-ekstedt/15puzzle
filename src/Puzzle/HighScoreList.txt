@@ -1,3 +1,4 @@
-null,PT6.3651665S,12
-null,PT6.3651665S,12
-null,PT3.3935094S,2
+Användare: asdf, tid: 4,57, antal steg: 2
+Användare: John Doe, tid: 3,37, antal steg: 2
+Användare: John Doe, tid: 3,05, antal steg: 2
+Användare: John Doe, tid: 3,00, antal steg: 2
