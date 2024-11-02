@@ -13,8 +13,6 @@ public class Window extends JFrame {
     private int dim = 4; //dimension på spelplanens sida
     private int size = dim * dim; //totala storleken
     private int whiteTile = size - 1; //Håller koll på vita rutans position, uppdaterad i moveTile()
-    private Timer gameTimer;
-    private boolean cheating = false;
 
     JPanel grid = new JPanel();
     JPanel[] panelArray;
@@ -29,7 +27,6 @@ public class Window extends JFrame {
         features.chooseUserName(); // test
         features.resetStepCounter();
         features.startTimer();
-        timeLabel.setText("Tid: 0 sekunder");
 
         do {
             shuffle(labels);
@@ -37,9 +34,11 @@ public class Window extends JFrame {
     }
     void endGame() {
         JOptionPane.showMessageDialog(null,"Grattis, du vann efter " + features.getStepCounter() + " drag!");
-        features.resetStepCounter();
         features.stopTimer();
         features.result(true);
+        features.resetStepCounter();
+        features.startTimer();
+
     }
 
     void window() {
@@ -165,4 +164,3 @@ public class Window extends JFrame {
         stepsLabel.setText("Antal drag: " + features.getStepCounter());
     }
 }
-//TODO Försök till timer -rad 16, -rad 143

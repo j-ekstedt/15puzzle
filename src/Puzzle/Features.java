@@ -24,9 +24,8 @@ public class Features {
     public Features() {
         this.highScoreHandler = new HighScoreHandler();
         this.highScores = highScoreHandler.loadHighScores();
-        //TODO För att fixa default username -rad 28
-        userName = getDefaultUserName();
-        //TODO Försök till att fixa en timer till spel, gick sådär -rad 30-63
+        userName = getUserName();
+
         gameTimer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -43,16 +42,12 @@ public class Features {
     }
     // Metod för att starta timern när spelet börjar
     public void startTimer() {
-        if (!gameTimer.isRunning()) {
-            this.startTime = Instant.now(); // Sparar nuvarande tid som starttid
-            gameTimer.start();
-        }
+        this.startTime = Instant.now(); // Sparar nuvarande tid som starttid
+        gameTimer.start();
     }
     // Metod för att stoppa timern och returnera den förflutna tiden i sekunder
     public Duration stopTimer() {
-        if (gameTimer.isRunning()) {
-            gameTimer.stop();
-        }
+        gameTimer.stop();
         Instant stopTime = Instant.now();
         Duration elapsedTime = Duration.between(startTime, stopTime);
         return elapsedTime;
@@ -71,18 +66,12 @@ public class Features {
         stepCounter = 0;
     }
 
-    // username
-    //TODO Fix med default username -rad 76-93
-    private String getDefaultUserName() {
-        return "John Doe";
-    }
     // Metod för att låta spelaren välja ett användarnamn via en dialogruta
     public void chooseUserName() {
         String input = JOptionPane.showInputDialog(null, "Välj användarnamn:");
         if (input != null && !input.trim().isEmpty()) {
             userName = input;
         }
-
     }
 
     public String getUserName() {
@@ -113,7 +102,6 @@ public class Features {
         } else {
             System.out.println("Highscore: ");
             for (HighScore score : highScores) {
-                //TODO fix med utskrift av tid
                 double seconds = score.getTime().toMillis() / 1000.0;
                 String formattedTime = String.format("%.2f", seconds);
                 // Skriv ut varje poäng med användarnamn, tid och drag
@@ -138,45 +126,4 @@ public class Features {
     public int getStepCounter() {
         return this.stepCounter;
     }
-
-
-
-    // Inre klass för att lagra tid och drag för en spelare
-    // Implementerar interfacet Comparable för att jämföra poäng
-    /*public static class HighScore implements Comparable<HighScore> {
-        private String userName;
-        private double time;
-        private int steps;
-
-        public HighScore(String userName, double time, int steps) {
-            this.userName = userName;
-            this.time = time;
-            this.steps = steps;
-        }
-
-        public String getUserName() {
-            return userName;
-        }
-
-        public double getTime() {
-            return time;
-        }
-
-        public int getSteps() {
-            return steps;
-        }
-
-
-        // Jämför två poäng och returnerar resultatet
-        @Override
-        public int compareTo(HighScore otherScore) {
-            if (this.time < otherScore.getTime()) {
-                return -1;
-            } else if (this.time > otherScore.getTime()) {
-                return 1;
-            } else {
-                return Integer.compare(this.steps, otherScore.getSteps());
-            }
-        }
-    }*/
 }
