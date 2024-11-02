@@ -1,10 +1,13 @@
 package Puzzle;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.function.Consumer;
 
 public class Features {
 
@@ -13,21 +16,50 @@ public class Features {
     private String userName;
     private ArrayList<HighScore> highScores; // Lista för att lagra högsta poäng
     private final HighScoreHandler highScoreHandler; // Instans av HighScoreHandler för att hantera högsta poäng
+    private Timer gameTimer;
+    private Consumer<String> timerListener;
+
 
     // Konstruktor som initierar HighScoreHandler och laddar högsta poäng från filen
     public Features() {
         this.highScoreHandler = new HighScoreHandler();
         this.highScores = highScoreHandler.loadHighScores();
+        //TODO För att fixa default username -rad 28
+        userName = getDefaultUserName();
+        //TODO Försök till att fixa en timer till spel, gick sådär -rad 30-63
+        gameTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (startTime != null) {
+                    Duration elapsedTime = Duration.between(startTime, Instant.now());
+                    double seconds = elapsedTime.toMillis() / 1000.0;
+                    if (timerListener != null) {
+                        // Pass the formatted time to the listener
+                        timerListener.accept(String.format("Tid: %.2f sekunder", seconds));
+                    }
+                }
+            }
+        });
     }
     // Metod för att starta timern när spelet börjar
     public void startTimer() {
-        this.startTime = Instant.now(); // Sparar nuvarande tid som starttid
+        if (!gameTimer.isRunning()) {
+            this.startTime = Instant.now(); // Sparar nuvarande tid som starttid
+            gameTimer.start();
+        }
     }
     // Metod för att stoppa timern och returnera den förflutna tiden i sekunder
     public Duration stopTimer() {
+        if (gameTimer.isRunning()) {
+            gameTimer.stop();
+        }
         Instant stopTime = Instant.now();
         Duration elapsedTime = Duration.between(startTime, stopTime);
         return elapsedTime;
+    }
+
+    public void setTimerListener(Consumer<String> listener) {
+        this.timerListener = listener; //
     }
     // Metod för att öka steg räknaren med 1 varje gång spelaren gör ett drag
     public void tileStepCounter() {
@@ -40,17 +72,22 @@ public class Features {
     }
 
     // username
+    //TODO Fix med default username -rad 76-93
+    private String getDefaultUserName() {
+        return "John Doe";
+    }
     // Metod för att låta spelaren välja ett användarnamn via en dialogruta
     public void chooseUserName() {
-        userName = JOptionPane.showInputDialog(null, "Välj användarnamn:");
-        if (userName == null || userName.trim().isEmpty()) {
-            userName = "John Doe"; // Default
+        String input = JOptionPane.showInputDialog(null, "Välj användarnamn:");
+        if (input != null && !input.trim().isEmpty()) {
+            userName = input;
         }
+
     }
 
     public String getUserName() {
         if (userName == null || userName.isEmpty()) {
-            chooseUserName();
+            userName = "John Doe";
         }
         return userName;
     }
@@ -76,8 +113,11 @@ public class Features {
         } else {
             System.out.println("Highscore: ");
             for (HighScore score : highScores) {
+                //TODO fix med utskrift av tid
+                double seconds = score.getTime().toMillis() / 1000.0;
+                String formattedTime = String.format("%.2f", seconds);
                 // Skriv ut varje poäng med användarnamn, tid och drag
-                System.out.println("- " + score.getUserName() + ": " + score.getTime() + " sekunder, " + score.getSteps() + " drag");
+                System.out.println("- " + score.getUserName() + ": " + formattedTime + " sekunder, " + score.getSteps() + " drag");
             }
         }
     }

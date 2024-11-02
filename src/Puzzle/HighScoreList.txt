@@ -1,3 +1,18 @@
-null,1.730383574496E9,0
-null,1.730384758555E9,0
-null,1.730384772772E9,0
+
+null,3,32,0
+null,3,32,0
+null,8,30,0
+null,2,78,0
+Användare -null, tid -5,46, antal steg0
+Användare -null, tid -10,16, antal steg -0
+Användare -null, tid -3,05, antal steg -0
+Användare -null, tid -4,57, antal steg -0
+Användare -null, tid -2,33, antal steg -0
+Användare -null, tid -7,25, antal steg -0
+Användare -null, tid -4,28, antal steg -0
+Användare -null, tid -5,62, antal steg -0
+Användare -null, tid -8,79, antal steg -0
+Användare -null, tid -4,55, antal steg -0
+Användare -John Doe, tid -3,35, antal steg -0
+Användare -John Doe, tid -5,27, antal steg -0
+Användare -John Doe, tid -9,33, antal steg -0
