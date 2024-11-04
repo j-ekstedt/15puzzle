@@ -54,14 +54,10 @@ public class Window extends JFrame {
     }
 
     void endGame() {
-        JOptionPane.showMessageDialog(null,"Grattis, du vann efter " + features.getStepCounter() + " drag!");
-
         features.stopTimer();
-        JOptionPane.showMessageDialog(null, "Grattis, du vann efter " + features.getFinalTime() + " sekunder och " + features.getStepCounter() + " drag!");
         features.result(true);
-        JOptionPane.showMessageDialog(null,"Grattis, du vann efter " + features.getStepCounter() + " drag!");
+        JOptionPane.showMessageDialog(null, "Grattis, du vann efter " + features.getFinalTime() + " sekunder och " + features.getStepCounter() + " drag!");
         features.resetStepCounter();
-
     }
 
     boolean isGameWon() {
