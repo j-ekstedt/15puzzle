@@ -58,8 +58,6 @@ public class Game {
      */
     public static void shuffle(JLabel[] labels) {
 
-        //TODO sortera innan
-
         for (int i = labels.length - 1; i > 0; i--) {
             Random rand  = new Random();
             int randomIndex = rand.nextInt(i);
@@ -67,6 +65,18 @@ public class Game {
             labels[randomIndex].setText(labels[i - 1].getText());
             labels[i - 1].setText(temp);
         }
+    }
+
+
+    /*
+    Sorterar spelplanen för att shuffle() ska fungera korrekt.
+     */
+    public static void sort(JLabel[] labels) {
+        for (int i = 0; i < labels.length; i++) {
+            labels[i].setText((i +1) + "");
+            labels[i].setVisible(true);
+        }
+        labels[labels.length - 1].setVisible(false);
     }
 
     /*

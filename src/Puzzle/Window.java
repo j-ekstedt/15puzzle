@@ -47,16 +47,16 @@ public class Window extends JFrame {
         features.startTimer();
 
         do {
+            whiteTile = size - 1;
+            sort(labels);
             shuffle(labels);
         } while (!isSolveable(labels));
     }
     void endGame() {
-        JOptionPane.showMessageDialog(null,"Grattis, du vann efter " + features.getStepCounter() + " drag!");
         features.stopTimer();
         features.result(true);
+        JOptionPane.showMessageDialog(null,"Grattis, du vann efter " + features.getStepCounter() + " drag!");
         features.resetStepCounter();
-        features.startTimer();
-
     }
 
     boolean isGameWon() {
