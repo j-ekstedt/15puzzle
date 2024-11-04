@@ -13,6 +13,10 @@ public class HighScore implements Comparable<HighScore> {
         this.steps = steps;
     }
 
+    public HighScore() {
+
+    }
+
     public String getUserName() {
         return userName;
     }

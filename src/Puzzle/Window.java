@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-
 import static Puzzle.Game.*;
 
 public class Window extends JFrame {
@@ -34,7 +33,7 @@ public class Window extends JFrame {
         createPanelArray(panelArray);
         createLabelArr(panelArray);
         pack();
-        stats.setLayout(new GridLayout(1,4,10,0));
+        stats.setLayout(new GridLayout(1, 4, 10, 0));
 
         add(stats, BorderLayout.NORTH);
 
@@ -42,7 +41,7 @@ public class Window extends JFrame {
 
     void newGame() {
         features.stopTimer();
-        features.chooseUserName(); // test
+        features.chooseUserName();
         features.resetStepCounter();
         features.startTimer();
 
@@ -50,13 +49,13 @@ public class Window extends JFrame {
             shuffle(labels);
         } while (!isSolveable(labels));
     }
+
     void endGame() {
-        JOptionPane.showMessageDialog(null,"Grattis, du vann efter " + features.getStepCounter() + " drag!");
         features.stopTimer();
+        JOptionPane.showMessageDialog(null, "Grattis, du vann efter " + features.getFinalTime() + " sekunder och " + features.getStepCounter() + " drag!");
         features.result(true);
         features.resetStepCounter();
         features.startTimer();
-
     }
 
     boolean isGameWon() {
@@ -89,6 +88,7 @@ public class Window extends JFrame {
             }
         }
     }
+
     private void createPanelArray(JPanel[] panelArray) {
         for (int i = 0; i < size; i++) {
             JPanel panel = new JPanel();
@@ -96,12 +96,13 @@ public class Window extends JFrame {
             panelArray[i] = panel;
         }
     }
-    private void createLabelButtons(){
-        JLabel newGameLabel = new JLabel ("Nytt spel");
+
+    private void createLabelButtons() {
+        JLabel newGameLabel = new JLabel("Nytt spel");
         newGameLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
         newGameLabel.setHorizontalAlignment(JLabel.CENTER);
         newGameLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
-        newGameLabel.addMouseListener(new MouseAdapter(){
+        newGameLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 newGame();
@@ -127,10 +128,11 @@ public class Window extends JFrame {
         timeLabel.setHorizontalAlignment(JLabel.CENTER);
         timeLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
 
-        stepsLabel = new JLabel("Antal drag: " + features.getStepCounter() );
+        stepsLabel = new JLabel("Antal drag: " + features.getStepCounter());
         stepsLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
         stepsLabel.setHorizontalAlignment(JLabel.CENTER);
         stepsLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
+
 
         stats.add(newGameLabel);
         stats.add(optionsLabel);
@@ -140,22 +142,23 @@ public class Window extends JFrame {
 
     }
 
-    private class LabelMouseListener extends MouseAdapter {
-        private final int index;
+        private class LabelMouseListener extends MouseAdapter {
+            private final int index;
 
-        public LabelMouseListener(int index) {
-            this.index = index;
-        }
+            public LabelMouseListener(int index) {
+                this.index = index;
+            }
 
-        @Override
-        public void mousePressed(MouseEvent e) {
-            whiteTile = moveTile(index, labels, whiteTile, dim, features, Window.this);
-            if (isGameWon()) {
-                endGame();
+            @Override
+            public void mousePressed(MouseEvent e) {
+                whiteTile = moveTile(index, labels, whiteTile, dim, features, Window.this);
+                if (isGameWon()) {
+                    endGame();
+                }
             }
         }
+        public void setStepLabelText () {
+            stepsLabel.setText("Antal drag: " + features.getStepCounter());
+        }
+
     }
-    public void setStepLabelText(){
-        stepsLabel.setText("Antal drag: " + features.getStepCounter());
-    }
-}
