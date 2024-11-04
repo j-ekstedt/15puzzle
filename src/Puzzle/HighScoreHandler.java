@@ -20,7 +20,7 @@ public class HighScoreHandler {
                     double seconds = Double.parseDouble(parts[1]);
                     Duration time = Duration.ofMillis((long) (seconds * 1000));
                     int steps = Integer.parseInt(parts[2]);
-                    loadedScores.add(new HighScore(name , time, steps));
+                    loadedScores.add(new HighScore(name, time, steps));
                 }
             }
         } catch (IOException | NumberFormatException e) {

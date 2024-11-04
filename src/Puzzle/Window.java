@@ -143,23 +143,23 @@ public class Window extends JFrame {
 
     }
 
-        private class LabelMouseListener extends MouseAdapter {
-            private final int index;
-
-            public LabelMouseListener(int index) {
-                this.index = index;
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                whiteTile = moveTile(index, labels, whiteTile, dim, features, Window.this);
-                if (isGameWon()) {
-                    endGame();
-                }
-            }
-        }
-        public void setStepLabelText () {
-            stepsLabel.setText("Antal drag: " + features.getStepCounter());
-        }
-
+    public void setStepLabelText() {
+        stepsLabel.setText("Antal drag: " + features.getStepCounter());
     }
+
+    private class LabelMouseListener extends MouseAdapter {
+        private final int index;
+
+        public LabelMouseListener(int index) {
+            this.index = index;
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            whiteTile = moveTile(index, labels, whiteTile, dim, features, Window.this);
+            if (isGameWon()) {
+                endGame();
+            }
+        }
+    }
+}
