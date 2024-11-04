@@ -40,11 +40,13 @@ public class Features {
             }
         });
     }
+
     // Metod för att starta timern när spelet börjar
     public void startTimer() {
         this.startTime = Instant.now(); // Sparar nuvarande tid som starttid
         gameTimer.start();
     }
+
     // Metod för att stoppa timern och returnera den förflutna tiden i sekunder
     public Duration stopTimer() {
         gameTimer.stop();
@@ -56,11 +58,13 @@ public class Features {
     public void setTimerListener(Consumer<String> listener) {
         this.timerListener = listener; //
     }
+
     // Metod för att öka steg räknaren med 1 varje gång spelaren gör ett drag
     public void tileStepCounter() {
         stepCounter++;
         System.out.println("Antal drag: " + stepCounter);
     }
+
     // Metod för att återställa steg räknaren till 0
     public void resetStepCounter() {
         stepCounter = 0;
@@ -94,6 +98,7 @@ public class Features {
 
         highScoreHandler.saveHighScores(highScores); // Spara högsta poängen till filen
     }
+
     // Metod för att visa alla högsta poäng
     public void showHighScores() {
 
@@ -109,10 +114,12 @@ public class Features {
             }
         }
     }
+
     // Metod för att hämta den bästa poängen (minst tid)
     public HighScore getBestScore() {
         return highScores.isEmpty() ? null : Collections.min(highScores);
     }
+
     // Metod för att hantera resultatet av spelet när det är slut
     public void result(boolean gameWon) {
         if (gameWon) {
@@ -125,5 +132,12 @@ public class Features {
 
     public int getStepCounter() {
         return this.stepCounter;
+    }
+
+    public String getFinalTime() {
+        Duration elapsedTime = stopTimer();
+        double seconds = elapsedTime.toMillis() / 1000.0;
+        String formattedTime = String.format("%.2f sekunder", seconds);
+        return formattedTime;
     }
 }

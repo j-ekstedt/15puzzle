@@ -1,33 +1,4 @@
 Användare: asdf, tid: 4,57, antal steg: 2
 Användare: John Doe, tid: 3,37, antal steg: 2
 Användare: John Doe, tid: 3,05, antal steg: 2
-Användare: John Doe, tid: 3,00, antal steg: 2
-Användare: John Doe, tid: 4,02, antal steg: 2
-Användare: John Doe, tid: 2,13, antal steg: 2
-Användare: John Doe, tid: 4,79, antal steg: 2
-Användare: John Doe, tid: 2,70, antal steg: 2
-Användare: John Doe, tid: 3,24, antal steg: 2
-Användare: John Doe, tid: 3,24, antal steg: 2
-Användare: John Doe, tid: 2,28, antal steg: 2
-Användare: John Doe, tid: 3,24, antal steg: 2
-Användare: John Doe, tid: 2,28, antal steg: 2
-Användare: John Doe, tid: 3,63, antal steg: 2
-Användare: John Doe, tid: 3,24, antal steg: 2
-Användare: John Doe, tid: 2,28, antal steg: 2
-Användare: John Doe, tid: 3,63, antal steg: 2
-Användare: John Doe, tid: 3,11, antal steg: 2
-Användare: John Doe, tid: 4,23, antal steg: 2
-Användare: John Doe, tid: 4,23, antal steg: 2
-Användare: John Doe, tid: 6,57, antal steg: 2
-Användare: John Doe, tid: 2,74, antal steg: 0
-Användare: John Doe, tid: 2,17, antal steg: 0
-Användare: John Doe, tid: 2,17, antal steg: 0
-Användare: John Doe, tid: 4,70, antal steg: 2
-Användare: John Doe, tid: 2,17, antal steg: 0
-Användare: John Doe, tid: 4,70, antal steg: 2
-Användare: John Doe, tid: 2,71, antal steg: 2
-Användare: John Doe, tid: 2,29, antal steg: 2
-Användare: John Doe, tid: 2,93, antal steg: 2
-Användare: John Doe, tid: 2,93, antal steg: 2
-Användare: John Doe, tid: 8,90, antal steg: 2
-Användare: John Doe, tid: 3,80, antal steg: 2
+
